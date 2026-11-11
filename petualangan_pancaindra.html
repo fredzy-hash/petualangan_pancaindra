@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Petualangan Pancaindra — Media Pembelajaran IPAS Kelas 2 SD</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pastelBlue: '#E0F2FE',
+                        pastelYellow: '#FEF9C3',
+                        pastelGreen: '#DCFCE7',
+                        pastelPink: '#FCE7F3',
+                        pastelPurple: '#F3E8FF',
+                        pastelOrange: '#FFEDD5',
+                        brandPrimary: '#0284C7',
+                        brandAccent: '#F59E0B',
+                        brandSuccess: '#10B981',
+                        brandDark: '#1E293B',
+                    },
+                    fontFamily: {
+                        sans: ['Comic Neue', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Comic Neue', sans-serif;
+            background-color: #F8FAFC;
+        }
+        .bounce-light {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .pulse-wave {
+            animation: wave 1.5s infinite ease-in-out;
+        }
+        @keyframes wave {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 5px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
+        }
+    </style>
+</head>
+<body class="text-slate-800 bg-slate-50 flex flex-col min-h-screen">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-md border-b border-sky-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Brand -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="scrollToSection('beranda')">
+                    <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-400 to-indigo-400 flex items-center justify-center text-white text-2xl shadow-lg">
+                        👁️
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-bold text-sky-700 leading-tight">Petualangan Pancaindra</h1>
+                        <p class="text-xs text-amber-600 font-semibold hidden sm:block">IPAS Kelas 2 SD — Fase A</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Menu -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2 font-medium text-sm">
+                    <button onclick="scrollToSection('beranda')" class="px-3 py-2 rounded-xl text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition">Beranda</button>
+                    <button onclick="scrollToSection('tujuan')" class="px-3 py-2 rounded-xl text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition">Tujuan</button>
+                    <button onclick="scrollToSection('materi')" class="px-3 py-2 rounded-xl text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition">Materi</button>
+                    <button onclick="scrollToSection('simulasi')" class="px-3 py-2 rounded-xl text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition">Lab Simulasi</button>
+                    <button onclick="scrollToSection('kuis')" class="px-3 py-2 rounded-xl text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition">Kuis (10 Soal)</button>
+                    <button onclick="scrollToSection('kesimpulan')" class="px-3 py-2 rounded-xl text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition">Kesimpulan</button>
+                    <button onclick="scrollToSection('referensi')" class="px-3 py-2 rounded-xl text-slate-700 hover:text-sky-600 hover:bg-sky-50 transition">Referensi</button>
+                </nav>
+
+                <!-- Sound & Controls -->
+                <div class="flex items-center space-x-2">
+                    <button id="toggleAudioBtn" onclick="toggleAudio()" class="px-3 py-2 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-2 transition shadow-sm" title="Mute/Unmute Efek Suara">
+                        <i id="audioIcon" class="fas fa-volume-up text-amber-600"></i>
+                        <span id="audioStatusText" class="hidden sm:inline">Efek Suara: On</span>
+                    </button>
+                    <!-- Mobile Hamburger -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-sky-100 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="scrollToSection('beranda'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-sky-50">Beranda</button>
+            <button onclick="scrollToSection('tujuan'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-sky-50">Tujuan Pembelajaran</button>
+            <button onclick="scrollToSection('materi'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-sky-50">Materi Pembelajaran</button>
+            <button onclick="scrollToSection('simulasi'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-sky-50">Laboratorium Simulasi</button>
+            <button onclick="scrollToSection('kuis'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-sky-50">Kuis Interaktif</button>
+            <button onclick="scrollToSection('kesimpulan'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-sky-50">Kesimpulan</button>
+            <button onclick="scrollToSection('referensi'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-slate-700 hover:bg-sky-50">Referensi Resmi</button>
+        </div>
+    </header>
+
+    <!-- FLOATING PROGRESS BAR -->
+    <div class="sticky top-20 z-40 bg-white/80 backdrop-blur-sm border-b border-slate-200 px-4 py-2">
+        <div class="max-w-7xl mx-auto flex items-center justify-between text-xs sm:text-sm">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-sky-800">Progres Belajar:</span>
+                <span id="progressText" class="font-semibold text-emerald-600">0% Selesai</span>
+            </div>
+            <div class="flex items-center space-x-4 w-1/2 max-w-xs">
+                <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden shadow-inner">
+                    <div id="progressBar" class="bg-gradient-to-r from-sky-400 to-emerald-400 h-full w-0 transition-all duration-500 rounded-full"></div>
+                </div>
+                <button onclick="resetProgress()" class="text-slate-400 hover:text-rose-500 text-xs flex items-center gap-1" title="Reset Progres Belajar">
+                    <i class="fas fa-undo-alt"></i> Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow">
+        
+        <!-- SECTION 1: BERANDA / HERO -->
+        <section id="beranda" class="py-12 lg:py-20 bg-gradient-to-b from-sky-50 via-indigo-50/30 to-white overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    
+                    <!-- Left Hero Content -->
+                    <div class="space-y-6 text-center lg:text-left">
+                        <div class="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-amber-100 border border-amber-200 text-amber-800 text-sm font-semibold shadow-sm">
+                            <span>✨ UTS Simulasi Digital Semester 1 (2026)</span>
+                        </div>
+                        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                            Petualangan <span class="text-sky-600 underline decoration-amber-400 decoration-wavy">Pancaindra</span>
+                        </h1>
+                        <p class="text-xl sm:text-2xl font-bold text-emerald-600">
+                            "Kenali Tubuhmu, Jaga Kesehatanmu!"
+                        </p>
+                        <p class="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0">
+                            Selamat datang di media pembelajaran interaktif IPAS Kelas 2 SD (Fase A). Mari menjelajah dan memahami lima indra hebat tubuh kita bersama kegiatan membaca, mendengarkan, dan eksperimen simulasi digital!
+                        </p>
+                        
+                        <!-- Teacher Info Card -->
+                        <div class="p-4 rounded-2xl bg-white border border-sky-100 shadow-md inline-block text-left w-full sm:w-auto">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-bold text-lg">
+                                    👨‍🏫
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Pengembang / Guru Pengampu</p>
+                                    <p class="text-sm font-bold text-slate-800">Fredyka Elga Ariantama</p>
+                                    <p class="text-xs text-sky-600 font-semibold">STKIP PGRI Pacitan</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hero Action Buttons -->
+                        <div class="flex flex-wrap gap-3 justify-center lg:justify-start pt-2">
+                            <button onclick="scrollToSection('materi')" class="px-6 py-3.5 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-base shadow-lg shadow-sky-200 transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                                <i class="fas fa-book-open"></i> Mulai Belajar
+                            </button>
+                            <button onclick="scrollToSection('simulasi')" class="px-6 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-base shadow-lg shadow-amber-200 transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                                <i class="fas fa-flask"></i> Coba Simulasi
+                            </button>
+                            <button onclick="scrollToSection('kuis')" class="px-6 py-3.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-base shadow-lg shadow-emerald-200 transition transform hover:-translate-y-0.5 flex items-center gap-2">
+                                <i class="fas fa-gamepad"></i> Kerjakan Kuis
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Cartoon SVG Visuals -->
+                    <div class="relative flex justify-center">
+                        <div class="w-full max-w-md p-6 bg-white/60 backdrop-blur-md rounded-3xl border-2 border-sky-100 shadow-2xl grid grid-cols-2 gap-4 text-center">
+                            
+                            <!-- Mata -->
+                            <div class="p-4 bg-sky-100/70 rounded-2xl border border-sky-200 hover:scale-105 transition transform">
+                                <div class="text-4xl mb-2">👁️</div>
+                                <h3 class="font-bold text-sky-800 text-sm">Mata</h3>
+                                <p class="text-xs text-slate-600">Melihat Warna & Bentuk</p>
+                            </div>
+
+                            <!-- Telinga -->
+                            <div class="p-4 bg-amber-100/70 rounded-2xl border border-amber-200 hover:scale-105 transition transform">
+                                <div class="text-4xl mb-2">👂</div>
+                                <h3 class="font-bold text-amber-800 text-sm">Telinga</h3>
+                                <p class="text-xs text-slate-600">Mendengar Suara</p>
+                            </div>
+
+                            <!-- Hidung -->
+                            <div class="p-4 bg-emerald-100/70 rounded-2xl border border-emerald-200 hover:scale-105 transition transform">
+                                <div class="text-4xl mb-2">👃</div>
+                                <h3 class="font-bold text-emerald-800 text-sm">Hidung</h3>
+                                <p class="text-xs text-slate-600">Mencium Aroma</p>
+                            </div>
+
+                            <!-- Lidah -->
+                            <div class="p-4 bg-pink-100/70 rounded-2xl border border-pink-200 hover:scale-105 transition transform">
+                                <div class="text-4xl mb-2">👅</div>
+                                <h3 class="font-bold text-pink-800 text-sm">Lidah</h3>
+                                <p class="text-xs text-slate-600">Mengenali Rasa</p>
+                            </div>
+
+                            <!-- Kulit -->
+                            <div class="p-4 col-span-2 bg-purple-100/70 rounded-2xl border border-purple-200 hover:scale-105 transition transform flex items-center justify-center gap-4">
+                                <div class="text-4xl">✋</div>
+                                <div class="text-left">
+                                    <h3 class="font-bold text-purple-800 text-sm">Kulit</h3>
+                                    <p class="text-xs text-slate-600">Merasakan Sentuhan & Suhu</p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: TUJUAN PEMBELAJARAN -->
+        <section id="tujuan" class="py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-700 font-bold text-xs uppercase tracking-wider">Capaian Pembelajaran Phase A</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Tujuan Pembelajaran</h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2">
+                        Setelah mengikuti pembelajaran interaktif ini, adik-adik siswa kelas 2 SD diharapkan dapat mencapai kompetensi berikut:
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Target Card 1 -->
+                    <div class="p-6 bg-sky-50 rounded-2xl border border-sky-100 shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-xl bg-sky-500 text-white font-bold flex items-center justify-center text-xl mb-4">1</div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">Menyebutkan 5 Pancaindra</h3>
+                        <p class="text-sm text-slate-600">Mampu menyebutkan lima jenis alat indra utama yang dimiliki oleh tubuh manusia secara konsisten.</p>
+                    </div>
+
+                    <!-- Target Card 2 -->
+                    <div class="p-6 bg-amber-50 rounded-2xl border border-amber-100 shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500 text-white font-bold flex items-center justify-center text-xl mb-4">2</div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">Mengenali Organ Tubuh</h3>
+                        <p class="text-sm text-slate-600">Menunjukkan letak bagian tubuh yang bertindak sebagai alat indra (mata, telinga, hidung, lidah, kulit).</p>
+                    </div>
+
+                    <!-- Target Card 3 -->
+                    <div class="p-6 bg-emerald-50 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500 text-white font-bold flex items-center justify-center text-xl mb-4">3</div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">Menjelaskan Fungsi Utama</h3>
+                        <p class="text-sm text-slate-600">Menjelaskan fungsi sederhana dari masing-masing alat indra dalam menerima rangsangan dari luar.</p>
+                    </div>
+
+                    <!-- Target Card 4 -->
+                    <div class="p-6 bg-purple-50 rounded-2xl border border-purple-100 shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500 text-white font-bold flex items-center justify-center text-xl mb-4">4</div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">Aplikasi Sehari-hari</h3>
+                        <p class="text-sm text-slate-600">Menghubungkan peran pancaindra dengan kegiatan sehari-hari di sekolah maupun di rumah.</p>
+                    </div>
+
+                    <!-- Target Card 5 -->
+                    <div class="p-6 bg-pink-50 rounded-2xl border border-pink-100 shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-xl bg-pink-500 text-white font-bold flex items-center justify-center text-xl mb-4">5</div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">Menjaga Kesehatan Indra</h3>
+                        <p class="text-sm text-slate-600">Memilih dan membiasakan pola hidup sehat untuk merawat organ pancaindra agar tidak cepat rusak.</p>
+                    </div>
+
+                    <!-- Target Card 6 -->
+                    <div class="p-6 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm hover:shadow-md transition">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500 text-white font-bold flex items-center justify-center text-xl mb-4">6</div>
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">Simulasi & Evaluasi</h3>
+                        <p class="text-sm text-slate-600">Membuktikan pemahaman melalui aktivitas simulasi digital serta menyelesaikan 10 soal kuis interaktif.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: MATERI PEMBELAJARAN -->
+        <section id="materi" class="py-12 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs uppercase tracking-wider">Modul Belajar</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Materi Pembelajaran IPAS</h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2">
+                        Pilih subbab materi di bawah ini. Gunakan tombol suara untuk mendengarkan teks penjelasan secara otomatis!
+                    </p>
+                </div>
+
+                <!-- Subbab Tabs Header -->
+                <div class="flex overflow-x-auto gap-2 pb-4 mb-6 border-b border-slate-200">
+                    <button onclick="switchMateri(1)" id="tab-materi-1" class="tab-materi-btn active px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap bg-sky-600 text-white shadow">
+                        1. Apa Itu Pancaindra?
+                    </button>
+                    <button onclick="switchMateri(2)" id="tab-materi-2" class="tab-materi-btn px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-sky-50">
+                        2. Mata (Penglihatan)
+                    </button>
+                    <button onclick="switchMateri(3)" id="tab-materi-3" class="tab-materi-btn px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-sky-50">
+                        3. Telinga (Pendengaran)
+                    </button>
+                    <button onclick="switchMateri(4)" id="tab-materi-4" class="tab-materi-btn px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-sky-50">
+                        4. Hidung, Lidah & Kulit
+                    </button>
+                    <button onclick="switchMateri(5)" id="tab-materi-5" class="tab-materi-btn px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-sky-50">
+                        5. Penerapan & Perawatan
+                    </button>
+                </div>
+
+                <!-- Subbab Content Container -->
+                <div class="bg-white rounded-3xl p-6 lg:p-10 border border-slate-200 shadow-xl relative min-h-[400px]">
+
+                    <!-- Text-To-Speech Controller Box -->
+                    <div class="mb-6 p-4 rounded-2xl bg-sky-50 border border-sky-100 flex flex-wrap items-center justify-between gap-3">
+                        <div class="flex items-center space-x-2 text-sky-800 font-bold text-sm">
+                            <i class="fas fa-volume-up text-sky-600 text-lg"></i>
+                            <span>Fitur Suara Pembaca Materi (TTS)</span>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button onclick="speakMateriContent()" class="px-3 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white text-xs font-bold transition flex items-center gap-1">
+                                <i class="fas fa-play"></i> Dengarkan Materi
+                            </button>
+                            <button onclick="pauseSpeech()" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold transition flex items-center gap-1">
+                                <i class="fas fa-pause"></i> Jeda
+                            </button>
+                            <button onclick="resumeSpeech()" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold transition flex items-center gap-1">
+                                <i class="fas fa-forward"></i> Lanjutkan
+                            </button>
+                            <button onclick="stopSpeech()" class="px-3 py-1.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold transition flex items-center gap-1">
+                                <i class="fas fa-stop"></i> Hentikan
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SUBBAB 1 CONTENT -->
+                    <div id="materi-content-1" class="materi-pane space-y-6">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-3xl">🌟</span>
+                            <h3 class="text-2xl font-bold text-slate-800">Subbab 1: Apa Itu Pancaindra?</h3>
+                        </div>
+                        <div id="speakable-materi-1" class="space-y-4 text-slate-700 leading-relaxed">
+                            <p>
+                                Tubuh kita adalah ciptaan yang sangat luar biasa! Agar kita bisa mengetahui keadaan di sekitar kita, Tuhan menganugerahkan <strong>Pancaindra</strong>. Kata <em>panca</em> artinya lima, dan <em>indra</em> artinya alat untuk merasakan.
+                            </p>
+                            <div class="p-4 bg-amber-50 rounded-2xl border-l-4 border-amber-400">
+                                <h4 class="font-bold text-amber-900 mb-1">🔍 Fakta Menarik:</h4>
+                                <p class="text-sm text-amber-800">
+                                    Pancaindra bekerja seperti jendela rumah! Tanpa pancaindra, kita tidak bisa melihat indahnya pemandangan, mendengar musik, mencium harum bunga, merasakan lezatnya makanan, atau merasakan lembutnya selimut.
+                                </p>
+                            </div>
+                            <h4 class="font-bold text-lg text-slate-800 pt-2">Lima Alat Indra Manusia:</h4>
+                            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+                                <div class="p-3 bg-sky-50 rounded-xl border border-sky-100 font-semibold text-sky-800">1. Mata (Penglihatan)</div>
+                                <div class="p-3 bg-amber-50 rounded-xl border border-amber-100 font-semibold text-amber-800">2. Telinga (Pendengaran)</div>
+                                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100 font-semibold text-emerald-800">3. Hidung (Penciuman)</div>
+                                <div class="p-3 bg-pink-50 rounded-xl border border-pink-100 font-semibold text-pink-800">4. Lidah (Pengecap)</div>
+                                <div class="p-3 bg-purple-50 rounded-xl border border-purple-100 font-semibold text-purple-800">5. Kulit (Peraba)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBBAB 2 CONTENT -->
+                    <div id="materi-content-2" class="materi-pane hidden space-y-6">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-3xl">👁️</span>
+                            <h3 class="text-2xl font-bold text-slate-800">Subbab 2: Mata — Indra Penglihatan</h3>
+                        </div>
+                        <div id="speakable-materi-2" class="space-y-4 text-slate-700 leading-relaxed">
+                            <p>
+                                <strong>Mata</strong> adalah alat indra yang berfungsi untuk melihat. Dengan mata, kita bisa mengenal berbagai bentuk, warna, ukuran, dan jarak benda di sekitar kita.
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 bg-sky-50 rounded-2xl border border-sky-100">
+                                    <h4 class="font-bold text-sky-900 mb-2">📌 Contoh Kegunaan Mata:</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-sm text-slate-700">
+                                        <li>Membaca buku cerita favoritmu.</li>
+                                        <li>Membedakan warna pelangi yang indah.</li>
+                                        <li>Melihat jalan saat berjalan agar tidak tersandung.</li>
+                                    </ul>
+                                </div>
+                                <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                                    <h4 class="font-bold text-emerald-900 mb-2">🌿 Cara Merawat Kesehatan Mata:</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-sm text-slate-700">
+                                        <li>Membaca di ruangan yang terang (tidak redup).</li>
+                                        <li>Tidak menonton TV/HP terlalu dekat.</li>
+                                        <li>Tidak menggosok mata dengan tangan kotor.</li>
+                                        <li>Makan sayuran seperti wortel yang kaya Vitamin A.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBBAB 3 CONTENT -->
+                    <div id="materi-content-3" class="materi-pane hidden space-y-6">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-3xl">👂</span>
+                            <h3 class="text-2xl font-bold text-slate-800">Subbab 3: Telinga — Indra Pendengaran</h3>
+                        </div>
+                        <div id="speakable-materi-3" class="space-y-4 text-slate-700 leading-relaxed">
+                            <p>
+                                <strong>Telinga</strong> adalah alat indra yang berfungsi untuk mendengar getaran suara atau bunyi. Kita memiliki dua buah telinga, yaitu di sebelah kanan dan kiri kepala.
+                            </p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                                    <h4 class="font-bold text-amber-900 mb-2">📌 Contoh Suara yang Didengar:</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-sm text-slate-700">
+                                        <li>Mendengarkan penjelasan Pak Guru Fredyka di kelas.</li>
+                                        <li>Mendengar musik dan kicauan burung di pagi hari.</li>
+                                        <li>Mendengar bel sekolah sebagai tanda istirahat.</li>
+                                    </ul>
+                                </div>
+                                <div class="p-4 bg-rose-50 rounded-2xl border border-rose-100">
+                                    <h4 class="font-bold text-rose-900 mb-2">⚠️ Cara Merawat Kesehatan Telinga:</h4>
+                                    <ul class="list-disc list-inside space-y-1 text-sm text-slate-700">
+                                        <li>Menghindari mendengarkan musik yang terlalu keras.</li>
+                                        <li>Tidak memasukkan benda tajam/benda keras ke dalam telinga.</li>
+                                        <li>Clean/bersihkan telinga luar secara teratur dengan bantuan orang tua.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBBAB 4 CONTENT -->
+                    <div id="materi-content-4" class="materi-pane hidden space-y-6">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-3xl">👃👅✋</span>
+                            <h3 class="text-2xl font-bold text-slate-800">Subbab 4: Hidung, Lidah, dan Kulit</h3>
+                        </div>
+                        <div id="speakable-materi-4" class="space-y-4 text-slate-700 leading-relaxed">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <!-- Hidung -->
+                                <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-100">
+                                    <h4 class="font-bold text-emerald-800 text-lg mb-2">👃 Hidung (Penciuman)</h4>
+                                    <p class="text-xs text-slate-600 mb-2">Membantu mencium aroma wangi bunga, makanan lezat, atau bau tidak sedap.</p>
+                                    <p class="text-xs font-bold text-emerald-900">Merawat: Gunakan sapu tangan bersih saat bersin & hindari asap kotor.</p>
+                                </div>
+                                <!-- Lidah -->
+                                <div class="p-4 bg-pink-50 rounded-2xl border border-pink-100">
+                                    <h4 class="font-bold text-pink-800 text-lg mb-2">👅 Lidah (Pengecap)</h4>
+                                    <p class="text-xs text-slate-600 mb-2">Mengenali rasa manis, asin, asam, dan pahit dari makanan yang kita makan.</p>
+                                    <p class="text-xs font-bold text-pink-900">Merawat: Hindari makan/minum yang terlalu panas atau dingin.</p>
+                                </div>
+                                <!-- Kulit -->
+                                <div class="p-4 bg-purple-50 rounded-2xl border border-purple-100">
+                                    <h4 class="font-bold text-purple-800 text-lg mb-2">✋ Kulit (Peraba)</h4>
+                                    <p class="text-xs text-slate-600 mb-2">Merasakan halus, kasar, panas, dingin, serta rasa nyeri pada tubuh.</p>
+                                    <p class="text-xs font-bold text-purple-900">Merawat: Mandi 2 kali sehari dengan sabun dan cuci tangan teratur.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBBAB 5 CONTENT -->
+                    <div id="materi-content-5" class="materi-pane hidden space-y-6">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-3xl">🤝</span>
+                            <h3 class="text-2xl font-bold text-slate-800">Subbab 5: Kerja Sama Pancaindra dalam Kehidupan</h3>
+                        </div>
+                        <div id="speakable-materi-5" class="space-y-4 text-slate-700 leading-relaxed">
+                            <p>
+                                Saat kita beraktivitas, pancaindra kita tidak bekerja sendirian, melainkan bekerja sama! Contohnya saat makan buah apel:
+                            </p>
+                            <div class="p-4 bg-sky-50 rounded-2xl border border-sky-200">
+                                <ul class="space-y-2 text-sm text-slate-700">
+                                    <li class="flex items-center gap-2">👁️ <strong>Mata</strong> melihat warna apel merah yang segar.</li>
+                                    <li class="flex items-center gap-2">✋ <strong>Kulit</strong> merasakan permukaan kulit apel yang halus dan dingin.</li>
+                                    <li class="flex items-center gap-2">👃 <strong>Hidung</strong> mencium aroma buah apel yang wangi.</li>
+                                    <li class="flex items-center gap-2">👅 <strong>Lidah</strong> merasakan manis dan segarnya buah apel saat dikunyah.</li>
+                                    <li class="flex items-center gap-2">👂 <strong>Telinga</strong> mendengar bunyi renyah "kriuk" saat apel digigit!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Footer inside Materi -->
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex justify-between items-center">
+                        <button id="prevMateriBtn" onclick="navigateMateri(-1)" class="px-4 py-2 rounded-xl bg-slate-100 text-slate-400 font-bold text-sm cursor-not-allowed flex items-center gap-2" disabled>
+                            <i class="fas fa-arrow-left"></i> Sebelumnya
+                        </button>
+                        <span id="materiProgressBadge" class="text-xs font-bold text-sky-700 bg-sky-100 px-3 py-1 rounded-full">Bagian 1 dari 5</span>
+                        <button id="nextMateriBtn" onclick="navigateMateri(1)" class="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm flex items-center gap-2">
+                            Berikutnya <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: LABORATORIUM SIMULASI DIGITAL -->
+        <section id="simulasi" class="py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="px-3 py-1 rounded-full bg-amber-100 text-amber-800 font-bold text-xs uppercase tracking-wider">Praktikum Digital</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Laboratorium Pancaindra Interaktif</h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2">
+                        Pilih organ pancaindra di bawah ini untuk mencoba simulasi digital interaktif!
+                    </p>
+                </div>
+
+                <!-- Sense Selector Buttons -->
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
+                    <button onclick="openSimulasi('mata')" id="sim-btn-mata" class="sim-nav-btn active p-4 rounded-2xl bg-sky-100 border-2 border-sky-400 font-bold text-sky-900 flex flex-col items-center gap-1 transition">
+                        <span class="text-3xl">👁️</span>
+                        <span class="text-xs sm:text-sm">Lab Mata</span>
+                    </button>
+                    <button onclick="openSimulasi('telinga')" id="sim-btn-telinga" class="sim-nav-btn p-4 rounded-2xl bg-slate-50 border border-slate-200 font-bold text-slate-700 hover:bg-amber-50 flex flex-col items-center gap-1 transition">
+                        <span class="text-3xl">👂</span>
+                        <span class="text-xs sm:text-sm">Lab Telinga</span>
+                    </button>
+                    <button onclick="openSimulasi('hidung')" id="sim-btn-hidung" class="sim-nav-btn p-4 rounded-2xl bg-slate-50 border border-slate-200 font-bold text-slate-700 hover:bg-emerald-50 flex flex-col items-center gap-1 transition">
+                        <span class="text-3xl">👃</span>
+                        <span class="text-xs sm:text-sm">Lab Hidung</span>
+                    </button>
+                    <button onclick="openSimulasi('lidah')" id="sim-btn-lidah" class="sim-nav-btn p-4 rounded-2xl bg-slate-50 border border-slate-200 font-bold text-slate-700 hover:bg-pink-50 flex flex-col items-center gap-1 transition">
+                        <span class="text-3xl">👅</span>
+                        <span class="text-xs sm:text-sm">Lab Lidah</span>
+                    </button>
+                    <button onclick="openSimulasi('kulit')" id="sim-btn-kulit" class="sim-nav-btn p-4 rounded-2xl bg-slate-50 border border-slate-200 font-bold text-slate-700 hover:bg-purple-50 flex flex-col items-center gap-1 transition">
+                        <span class="text-3xl">✋</span>
+                        <span class="text-xs sm:text-sm">Lab Kulit</span>
+                    </button>
+                </div>
+
+                <!-- Simulation Worksheets -->
+                <div class="bg-slate-50 border-2 border-slate-200 rounded-3xl p-6 sm:p-8 min-h-[350px]">
+                    
+                    <!-- SIMULASI MATA -->
+                    <div id="sim-panel-mata" class="sim-panel space-y-6">
+                        <div class="flex items-center justify-between border-b pb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-sky-800">🔍 Simulasi A: Mata — Pemindai Warna & Bentuk</h3>
+                                <p class="text-xs text-slate-500">Klik salah satu objek kartun untuk dianalisis oleh indra penglihatan.</p>
+                            </div>
+                            <button onclick="resetSimulasi('mata')" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold">Reset</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 max-w-md mx-auto text-center">
+                            <button onclick="scanObject('Merah', 'Segitiga', '🍎 Apel')" class="p-4 bg-white rounded-2xl shadow hover:border-sky-400 border-2 border-transparent transition text-4xl">🍎</button>
+                            <button onclick="scanObject('Kuning', 'Bintang', '⭐ Bintang')" class="p-4 bg-white rounded-2xl shadow hover:border-sky-400 border-2 border-transparent transition text-4xl">⭐</button>
+                            <button onclick="scanObject('Hijau', 'Bulat', 'Semangka')" class="p-4 bg-white rounded-2xl shadow hover:border-sky-400 border-2 border-transparent transition text-4xl">🍉</button>
+                        </div>
+                        <div id="mataResult" class="p-4 bg-white rounded-2xl border border-sky-200 text-center space-y-2">
+                            <p class="text-sm font-bold text-sky-900">Hasil Analisis Indra Penglihatan:</p>
+                            <p id="mataResultText" class="text-xs text-slate-600">Silakan klik salah satu objek di atas!</p>
+                        </div>
+                    </div>
+
+                    <!-- SIMULASI TELINGA -->
+                    <div id="sim-panel-telinga" class="sim-panel hidden space-y-6">
+                        <div class="flex items-center justify-between border-b pb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-amber-800">🔊 Simulasi B: Telinga — Penganalisis Gelombang Suara</h3>
+                                <p class="text-xs text-slate-500">Pilih kartu bunyi untuk menghasilkan nada audio dan animasi gelombang suara.</p>
+                            </div>
+                            <button onclick="resetSimulasi('telinga')" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold">Reset</button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-xl mx-auto">
+                            <button onclick="playAudioSim('hujan', 300)" class="p-4 bg-white rounded-2xl border-2 border-amber-200 hover:bg-amber-50 text-center font-bold text-amber-800 shadow transition">
+                                🌧️ Suara Hujan
+                            </button>
+                            <button onclick="playAudioSim('bel', 800)" class="p-4 bg-white rounded-2xl border-2 border-amber-200 hover:bg-amber-50 text-center font-bold text-amber-800 shadow transition">
+                                🔔 Bel Sekolah
+                            </button>
+                            <button onclick="playAudioSim('burung', 1200)" class="p-4 bg-white rounded-2xl border-2 border-amber-200 hover:bg-amber-50 text-center font-bold text-amber-800 shadow transition">
+                                🐦 Kicau Burung
+                            </button>
+                        </div>
+                        <div id="soundWaveContainer" class="p-6 bg-white rounded-2xl border border-amber-200 text-center space-y-3">
+                            <div class="flex justify-center items-center space-x-2 h-12">
+                                <div id="wave1" class="w-3 bg-amber-400 rounded-full h-4 transition-all"></div>
+                                <div id="wave2" class="w-3 bg-amber-500 rounded-full h-8 transition-all"></div>
+                                <div id="wave3" class="w-3 bg-amber-600 rounded-full h-12 transition-all"></div>
+                                <div id="wave4" class="w-3 bg-amber-500 rounded-full h-8 transition-all"></div>
+                                <div id="wave5" class="w-3 bg-amber-400 rounded-full h-4 transition-all"></div>
+                            </div>
+                            <p id="telingaResultText" class="text-xs font-semibold text-slate-600">Klik kartu di atas untuk mendengarkan getaran bunyi!</p>
+                        </div>
+                    </div>
+
+                    <!-- SIMULASI HIDUNG -->
+                    <div id="sim-panel-hidung" class="sim-panel hidden space-y-6">
+                        <div class="flex items-center justify-between border-b pb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-emerald-800">🌸 Simulasi C: Hidung — Penjelajah Aroma</h3>
+                                <p class="text-xs text-slate-500">Pilih objek untuk melepaskan partikel aroma digital ke udara.</p>
+                            </div>
+                            <button onclick="resetSimulasi('hidung')" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold">Reset</button>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 max-w-md mx-auto text-center">
+                            <button onclick="smellObject('Bunga Mawar', 'Wangi Semerbak Segar 🌺')" class="p-4 bg-white rounded-2xl shadow hover:border-emerald-400 border-2 border-transparent transition text-4xl">🌹</button>
+                            <button onclick="smellObject('Kue Cokelat', 'Manis & Gurih 🎂')" class="p-4 bg-white rounded-2xl shadow hover:border-emerald-400 border-2 border-transparent transition text-4xl">🎂</button>
+                            <button onclick="smellObject('Sampah', 'Bau Menyengat / Tidak Sedap ⚠️')" class="p-4 bg-white rounded-2xl shadow hover:border-emerald-400 border-2 border-transparent transition text-4xl">🗑️</button>
+                        </div>
+                        <div id="hidungResult" class="p-4 bg-white rounded-2xl border border-emerald-200 text-center space-y-2">
+                            <p class="text-sm font-bold text-emerald-900">Sensasi Penciuman Hidung:</p>
+                            <p id="hidungResultText" class="text-xs text-slate-600">Pilih benda untuk menguji kemampuan pembauan hidung!</p>
+                        </div>
+                    </div>
+
+                    <!-- SIMULASI LIDAH -->
+                    <div id="sim-panel-lidah" class="sim-panel hidden space-y-6">
+                        <div class="flex items-center justify-between border-b pb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-pink-800">👅 Simulasi D: Lidah — Peta Reseptor Rasa</h3>
+                                <p class="text-xs text-slate-500">Pilih jenis rasa untuk melihat bagaimana lidah meresponsnya secara menyeluruh.</p>
+                            </div>
+                            <button onclick="resetSimulasi('lidah')" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold">Reset</button>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <button onclick="testTaste('Manis', '🍩 Donat / Gula', 'bg-pink-100 text-pink-800')" class="p-3 bg-white border border-pink-200 rounded-xl font-bold text-pink-700 hover:bg-pink-50">🍬 Manis</button>
+                            <button onclick="testTaste('Asin', '🍿 Garam / Popcorn', 'bg-blue-100 text-blue-800')" class="p-3 bg-white border border-blue-200 rounded-xl font-bold text-blue-700 hover:bg-blue-50">🧂 Asin</button>
+                            <button onclick="testTaste('Asam', '🍋 Lemon / Jeruk Nipis', 'bg-yellow-100 text-yellow-800')" class="p-3 bg-white border border-yellow-200 rounded-xl font-bold text-yellow-700 hover:bg-yellow-50">🍋 Asam</button>
+                            <button onclick="testTaste('Pahit', '☕ Kopi Pahit / Jamu', 'bg-amber-100 text-amber-800')" class="p-3 bg-white border border-amber-200 rounded-xl font-bold text-amber-700 hover:bg-amber-50">☕ Pahit</button>
+                        </div>
+                        <div id="lidahResult" class="p-4 bg-white rounded-2xl border border-pink-200 text-center space-y-2">
+                            <p class="text-sm font-bold text-pink-900">Pengecapan Lidah:</p>
+                            <p id="lidahResultText" class="text-xs text-slate-600">Klik kartu rasa di atas. Ingat! Seluruh permukaan lidah dapat mendeteksi semua rasa.</p>
+                        </div>
+                    </div>
+
+                    <!-- SIMULASI KULIT -->
+                    <div id="sim-panel-kulit" class="sim-panel hidden space-y-6">
+                        <div class="flex items-center justify-between border-b pb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-purple-800">✋ Simulasi E: Kulit — Sensor Tekstur & Suhu</h3>
+                                <p class="text-xs text-slate-500">Pilih benda untuk meraba tekstur permukaannya serta merasakan suhunya.</p>
+                            </div>
+                            <button onclick="resetSimulasi('kulit')" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold">Reset</button>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <button onclick="touchSkin('Kain Lembut', 'Halus & Nyaman', 'Suhu Normal')" class="p-3 bg-white border border-purple-200 rounded-xl font-bold text-purple-700 hover:bg-purple-50">🧸 Kain Halus</button>
+                            <button onclick="touchSkin('Batu Kali', 'Kasar & Keras', 'Suhu Sejuk')" class="p-3 bg-white border border-purple-200 rounded-xl font-bold text-purple-700 hover:bg-purple-50">🪨 Batu Kasar</button>
+                            <button onclick="touchSkin('Es Batu', 'Licin & Basah', 'Suhu Dingin ❄️')" class="p-3 bg-white border border-purple-200 rounded-xl font-bold text-purple-700 hover:bg-purple-50">🧊 Es Batu</button>
+                            <button onclick="touchSkin('Teh Hangat', 'Cair', 'Suhu Hangat ☕')" class="p-3 bg-white border border-purple-200 rounded-xl font-bold text-purple-700 hover:bg-purple-50">☕ Teh Hangat</button>
+                        </div>
+                        <div id="kulitResult" class="p-4 bg-white rounded-2xl border border-purple-200 text-center space-y-2">
+                            <p class="text-sm font-bold text-purple-900">Rangsangan Sensorik Kulit:</p>
+                            <p id="kulitResultText" class="text-xs text-slate-600">Pilih benda untuk menyentuh dan mendeteksi suhunya!</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 5: KUIS INTERAKTIF (10 SOAL) -->
+        <section id="kuis" class="py-12 bg-slate-50">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="px-3 py-1 rounded-full bg-rose-100 text-rose-800 font-bold text-xs uppercase tracking-wider">Uji Pemahaman</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Kuis Interaktif (10 Soal)</h2>
+                    <p class="text-slate-600 text-sm mt-2">
+                        Jawablah 10 soal pilihan ganda di bawah ini dengan cermat untuk menguji pemahamanmu!
+                    </p>
+                </div>
+
+                <!-- Quiz Main Container -->
+                <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xl">
+                    
+                    <!-- Start Quiz Screen -->
+                    <div id="quizStartScreen" class="text-center space-y-6 py-8">
+                        <div class="w-20 h-20 mx-auto rounded-full bg-rose-100 text-rose-600 flex items-center justify-center text-4xl shadow-inner">
+                            🎯
+                        </div>
+                        <h3 class="text-2xl font-bold text-slate-800">Sudah Siap Memulai Kuis?</h3>
+                        <p class="text-slate-600 max-w-md mx-auto text-sm">
+                            Kuis terdiri dari 10 soal. Setiap soal bernilai 10 poin dengan total skor maksimal 100.
+                        </p>
+                        <button onclick="startQuiz()" class="px-8 py-3.5 rounded-2xl bg-rose-500 hover:bg-rose-600 text-white font-bold text-base shadow-lg shadow-rose-200 transition transform hover:-translate-y-0.5">
+                            Mulai Kuis Sekarang 🚀
+                        </button>
+                    </div>
+
+                    <!-- Question Active Screen -->
+                    <div id="quizActiveScreen" class="hidden space-y-6">
+                        
+                        <!-- Quiz Header & Progress Bar -->
+                        <div class="flex items-center justify-between border-b pb-4">
+                            <span id="quizQuestionNum" class="font-bold text-slate-700 text-sm">Soal 1 dari 10</span>
+                            <span id="quizScoreCurrent" class="font-bold text-emerald-600 text-sm">Skor: 0</span>
+                        </div>
+                        
+                        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                            <div id="quizProgressBar" class="bg-rose-500 h-full w-10 transition-all"></div>
+                        </div>
+
+                        <!-- Question Box -->
+                        <div class="p-4 bg-rose-50/50 rounded-2xl border border-rose-100">
+                            <h4 id="quizQuestionText" class="text-lg font-bold text-slate-800">
+                                Loading pertanyaan...
+                            </h4>
+                        </div>
+
+                        <!-- Options List -->
+                        <div id="quizOptionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+
+                        <!-- Explanation / Feedback Box -->
+                        <div id="quizFeedbackBox" class="hidden p-4 rounded-2xl border text-sm font-semibold">
+                            <p id="quizFeedbackTitle" class="font-bold mb-1"></p>
+                            <p id="quizFeedbackText" class="text-xs"></p>
+                        </div>
+
+                        <!-- Quiz Action Buttons -->
+                        <div class="flex justify-between items-center pt-4 border-t">
+                            <button id="quizCheckBtn" onclick="checkQuizAnswer()" class="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow transition">
+                                Periksa Jawaban
+                            </button>
+                            <button id="quizNextBtn" onclick="nextQuizQuestion()" class="hidden px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow transition">
+                                Soal Berikutnya <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- Quiz Result Final Screen -->
+                    <div id="quizResultScreen" class="hidden text-center space-y-6 py-6">
+                        <div class="w-24 h-24 mx-auto rounded-full bg-amber-100 text-amber-500 flex items-center justify-center text-5xl shadow-md">
+                            🏆
+                        </div>
+                        <h3 class="text-3xl font-extrabold text-slate-800">Hasil Kuis Kamu</h3>
+                        <div class="p-6 bg-slate-50 rounded-2xl border max-w-sm mx-auto space-y-2">
+                            <p class="text-4xl font-extrabold text-emerald-600" id="finalQuizScore">100</p>
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">Skor Akhir</p>
+                            <p id="finalQuizAnswers" class="text-sm font-semibold text-slate-700 pt-2">Benar: 10 / Salah: 0</p>
+                        </div>
+                        <p id="finalQuizMotivation" class="text-base font-bold text-sky-800 italic max-w-md mx-auto">
+                            "Hebat sekali! Kamu memahami semua materi pancaindra!"
+                        </p>
+                        <div class="pt-4">
+                            <button onclick="resetQuiz()" class="px-6 py-3 rounded-2xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-sm shadow-md transition">
+                                <i class="fas fa-redo"></i> Ulangi Kuis
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 6: KESIMPULAN -->
+        <section id="kesimpulan" class="py-12 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-800 font-bold text-xs uppercase tracking-wider">Rangkuman Materi</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Kesimpulan Pembelajaran</h2>
+                </div>
+
+                <div class="p-8 bg-gradient-to-r from-sky-50 via-indigo-50 to-purple-50 rounded-3xl border border-sky-100 shadow-lg space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-4 text-center">
+                        <div class="p-3 bg-white rounded-2xl shadow-sm border border-sky-100">
+                            <div class="text-3xl mb-1">👁️</div>
+                            <h4 class="font-bold text-sky-800 text-sm">Mata</h4>
+                            <p class="text-xs text-slate-500">Melihat warna & benda</p>
+                        </div>
+                        <div class="p-3 bg-white rounded-2xl shadow-sm border border-amber-100">
+                            <div class="text-3xl mb-1">👂</div>
+                            <h4 class="font-bold text-amber-800 text-sm">Telinga</h4>
+                            <p class="text-xs text-slate-500">Mendengar getaran suara</p>
+                        </div>
+                        <div class="p-3 bg-white rounded-2xl shadow-sm border border-emerald-100">
+                            <div class="text-3xl mb-1">👃</div>
+                            <h4 class="font-bold text-emerald-800 text-sm">Hidung</h4>
+                            <p class="text-xs text-slate-500">Mencium berbagai aroma</p>
+                        </div>
+                        <div class="p-3 bg-white rounded-2xl shadow-sm border border-pink-100">
+                            <div class="text-3xl mb-1">👅</div>
+                            <h4 class="font-bold text-pink-800 text-sm">Lidah</h4>
+                            <p class="text-xs text-slate-500">Mengenali 4 rasa utama</p>
+                        </div>
+                        <div class="p-3 bg-white rounded-2xl shadow-sm border border-purple-100">
+                            <div class="text-3xl mb-1">✋</div>
+                            <h4 class="font-bold text-purple-800 text-sm">Kulit</h4>
+                            <p class="text-xs text-slate-500">Merasakan sentuhan & suhu</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-white/80 rounded-2xl border text-center space-y-2">
+                        <h4 class="font-bold text-slate-800">💭 Refleksi Siswa Hari Ini:</h4>
+                        <p class="text-sm text-slate-600 italic">
+                            "Pancaindra adalah karunia hebat. Dengan merawat kebersihannya dan menggunakannya untuk hal-hal kebaikan, kita menjaga tubuh kita tetap sehat dan kuat!"
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-3 pt-2">
+                        <button onclick="scrollToSection('materi')" class="px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs sm:text-sm transition">
+                            Pelajari Lagi Materi
+                        </button>
+                        <button onclick="scrollToSection('kuis')" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm transition">
+                            Coba Kuis Sekali Lagi
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 7: REFERENSI RESMI -->
+        <section id="referensi" class="py-12 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="px-3 py-1 rounded-full bg-sky-100 text-sky-800 font-bold text-xs uppercase tracking-wider">Sumber Acuan</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Sumber Belajar & Referensi Resmi</h2>
+                    <p class="text-slate-600 text-sm mt-2">
+                        Seluruh materi dan panduan kurikulum diselaraskan dengan 3 rujukan resmi Kementerian Pendidikan Dasar dan Menengah:
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Reference Card 1 -->
+                    <div class="p-6 bg-white rounded-3xl border border-slate-200 shadow-md flex flex-col justify-between space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-sky-600 uppercase">Kemendikdasmen</span>
+                            <h3 class="font-bold text-base text-slate-800 mt-1">1. Rumah Pendidikan</h3>
+                            <p class="text-xs text-slate-500 mt-2">
+                                Materi Sumber Belajar Jenjang Sekolah Dasar (SD) untuk memeriksa keabsahan materi pancaindra Fase A.
+                            </p>
+                        </div>
+                        <a href="https://pusatinformasi.rumahpendidikan.kemendikdasmen.go.id/hc/id/articles/52341557298201-Materi-Sumber-Belajar-Jenjang-Sekolah-Dasar-SD" target="_blank" class="px-4 py-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold text-xs text-center border border-sky-200 transition flex items-center justify-center gap-2">
+                            Buka Sumber <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+
+                    <!-- Reference Card 2 -->
+                    <div class="p-6 bg-white rounded-3xl border border-slate-200 shadow-md flex flex-col justify-between space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-amber-600 uppercase">Kemendikdasmen</span>
+                            <h3 class="font-bold text-base text-slate-800 mt-1">2. SIBI Catalog Buku</h3>
+                            <p class="text-xs text-slate-500 mt-2">
+                                Sistem Informasi Perbukuan Indonesia — Katalog Buku Pembelajaran IPAS Kelas 2 SD resmi.
+                            </p>
+                        </div>
+                        <a href="https://buku.kemendikdasmen.go.id/katalog" target="_blank" class="px-4 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-xs text-center border border-amber-200 transition flex items-center justify-center gap-2">
+                            Buka Sumber <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+
+                    <!-- Reference Card 3 -->
+                    <div class="p-6 bg-white rounded-3xl border border-slate-200 shadow-md flex flex-col justify-between space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-600 uppercase">Kemendikdasmen</span>
+                            <h3 class="font-bold text-base text-slate-800 mt-1">3. Panduan Mapel IPAS</h3>
+                            <p class="text-xs text-slate-500 mt-2">
+                                Dokumen Final Panduan Mata Pelajaran IPAS Capaian Pembelajaran Elemen Tubuh Manusia Fase A.
+                            </p>
+                        </div>
+                        <a href="https://kurikulum.kemendikdasmen.go.id/file/panduan/dokumen/7.%20Final%20Panduan%20Mata%20Pelajaran%20IPAS_03_10_2025_Revisi%204.pdf" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs text-center border border-emerald-200 transition flex items-center justify-center gap-2">
+                            Buka Sumber <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-white py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
+            <div class="flex items-center justify-center space-x-2">
+                <span class="text-2xl">👁️</span>
+                <span class="font-bold text-lg text-sky-400">Petualangan Pancaindra</span>
+            </div>
+            <p class="text-xs text-slate-400 max-w-md mx-auto">
+                Disusun untuk Tugas Ujian Tengah Semester (UTS) Mata Kuliah Simulasi Digital Semester 1 Tingkat 1 Tahun 2026.
+            </p>
+            <p class="text-xs font-semibold text-slate-300">
+                Pengembang: <span class="text-amber-400 font-bold">Fredyka Elga Ariantama</span> | STKIP PGRI Pacitan
+            </p>
+            <p class="text-xs text-slate-500 pt-2">
+                &copy; 2026 Petualangan Pancaindra — Media Pembelajaran SD Interaktif
+            </p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        /* ==========================================================================
+           1. GLOBAL STATE & AUDIO SYNTHESIZER
+           ========================================================================== */
+        let isAudioMuted = false;
+        let currentMateriIndex = 1;
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let userQuizAnswers = new Array(10).fill(null);
+        let activeSynthAudio = null;
+
+        // Progress Tracking State
+        let learningProgress = {
+            materiCompleted: [false, false, false, false, false],
+            simulationsTried: { mata: false, telinga: false, hidung: false, lidah: false, kulit: false },
+            quizDone: false
+        };
+
+        // Web Audio API Synthesizer (No external MP3 files needed)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSynthSound(freq, type = 'sine', duration = 0.2) {
+            if (isAudioMuted) return;
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + duration);
+            } catch (e) {
+                console.log("Audio Context Error: ", e);
+            }
+        }
+
+        function toggleAudio() {
+            isAudioMuted = !isAudioMuted;
+            const icon = document.getElementById('audioIcon');
+            const text = document.getElementById('audioStatusText');
+            if (isAudioMuted) {
+                icon.className = 'fas fa-volume-mute text-rose-500';
+                text.innerText = 'Efek Suara: Off';
+                stopSpeech();
+            } else {
+                icon.className = 'fas fa-volume-up text-amber-600';
+                text.innerText = 'Efek Suara: On';
+                playSynthSound(587.33, 'sine', 0.1);
+            }
+        }
+
+        /* ==========================================================================
+           2. NAVIGATION & RESPONSIVE UI
+           ========================================================================== */
+        function scrollToSection(id) {
+            const elem = document.getElementById(id);
+            if (elem) {
+                elem.scrollIntoView({ behavior: 'smooth' });
+                playSynthSound(440, 'sine', 0.1);
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        /* ==========================================================================
+           3. MATERI TAB & TEXT-TO-SPEECH (Web Speech API)
+           ========================================================================== */
+        function switchMateri(index) {
+            currentMateriIndex = index;
+            stopSpeech();
+            
+            // Highlight Tab Button
+            document.querySelectorAll('.tab-materi-btn').forEach((btn, idx) => {
+                if (idx + 1 === index) {
+                    btn.className = 'tab-materi-btn active px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap bg-sky-600 text-white shadow';
+                } else {
+                    btn.className = 'tab-materi-btn px-4 py-2.5 rounded-xl font-bold text-sm whitespace-nowrap bg-white text-slate-600 hover:bg-sky-50';
+                }
+            });
+
+            // Show Pane
+            document.querySelectorAll('.materi-pane').forEach((pane, idx) => {
+                if (idx + 1 === index) {
+                    pane.classList.remove('hidden');
+                } else {
+                    pane.classList.add('hidden');
+                }
+            });
+
+            // Update Nav Footer
+            document.getElementById('materiProgressBadge').innerText = `Bagian ${index} dari 5`;
+            const prevBtn = document.getElementById('prevMateriBtn');
+            const nextBtn = document.getElementById('nextMateriBtn');
+            
+            if (index === 1) {
+                prevBtn.disabled = true;
+                prevBtn.className = 'px-4 py-2 rounded-xl bg-slate-100 text-slate-400 font-bold text-sm cursor-not-allowed flex items-center gap-2';
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.className = 'px-4 py-2 rounded-xl bg-sky-100 hover:bg-sky-200 text-sky-800 font-bold text-sm flex items-center gap-2';
+            }
+
+            if (index === 5) {
+                nextBtn.innerText = 'Selesai Modul 🎓';
+            } else {
+                nextBtn.innerHTML = 'Berikutnya <i class="fas fa-arrow-right"></i>';
+            }
+
+            // Track Progress
+            learningProgress.materiCompleted[index - 1] = true;
+            updateOverallProgress();
+        }
+
+        function navigateMateri(direction) {
+            let nextIndex = currentMateriIndex + direction;
+            if (nextIndex >= 1 && nextIndex <= 5) {
+                switchMateri(nextIndex);
+            }
+        }
+
+        // Web Speech API Integration
+        let speechUtterance = null;
+
+        function speakMateriContent() {
+            if (isAudioMuted) {
+                alert("Efek Suara sedang dimatikan. Harap aktifkan efek suara terlebih dahulu!");
+                return;
+            }
+
+            if (!('speechSynthesis' in window)) {
+                alert("Maaf, browser Anda tidak mendukung fitur Suara (Text-to-Speech).");
+                return;
+            }
+
+            window.speechSynthesis.cancel();
+            const elem = document.getElementById(`speakable-materi-${currentMateriIndex}`);
+            if (!elem) return;
+
+            const textToSpeak = elem.innerText;
+            speechUtterance = new SpeechSynthesisUtterance(textToSpeak);
+            speechUtterance.lang = 'id-ID';
+            speechUtterance.rate = 0.9; // Friendly slower rate for children
+
+            window.speechSynthesis.speak(speechUtterance);
+        }
+
+        function pauseSpeech() {
+            if (window.speechSynthesis) window.speechSynthesis.pause();
+        }
+
+        function resumeSpeech() {
+            if (window.speechSynthesis) window.speechSynthesis.resume();
+        }
+
+        function stopSpeech() {
+            if (window.speechSynthesis) window.speechSynthesis.cancel();
+        }
+
+        /* ==========================================================================
+           4. LABORATORIUM SIMULASI INTERAKTIF
+           ========================================================================== */
+        function openSimulasi(type) {
+            playSynthSound(523.25, 'sine', 0.1);
+            
+            // Buttons Highlight
+            document.querySelectorAll('.sim-nav-btn').forEach(btn => {
+                btn.className = 'sim-nav-btn p-4 rounded-2xl bg-slate-50 border border-slate-200 font-bold text-slate-700 hover:bg-sky-50 flex flex-col items-center gap-1 transition';
+            });
+            document.getElementById(`sim-btn-${type}`).className = 'sim-nav-btn active p-4 rounded-2xl bg-sky-100 border-2 border-sky-400 font-bold text-sky-900 flex flex-col items-center gap-1 transition';
+
+            // Show Panel
+            document.querySelectorAll('.sim-panel').forEach(panel => panel.classList.add('hidden'));
+            document.getElementById(`sim-panel-${type}`).classList.remove('hidden');
+
+            // Track Progress
+            learningProgress.simulationsTried[type] = true;
+            updateOverallProgress();
+        }
+
+        function scanObject(color, shape, name) {
+            playSynthSound(659.25, 'triangle', 0.2);
+            const res = document.getElementById('mataResultText');
+            res.innerHTML = `Objek <strong>${name}</strong> terdeteksi memiliki warna <span class="text-rose-600 font-bold">${color}</span> dan bentuk <span class="text-sky-600 font-bold">${shape}</span>. Mata menangkap pantulan cahaya objek ini!`;
+        }
+
+        function playAudioSim(soundType, freq) {
+            playSynthSound(freq, 'sine', 0.5);
+            const res = document.getElementById('telingaResultText');
+            res.innerText = `Gelombang suara "${soundType}" merambat melalui udara dan diterima oleh daun telingamu!`;
+            
+            // Pulse sound waves visually
+            const waves = [document.getElementById('wave1'), document.getElementById('wave2'), document.getElementById('wave3'), document.getElementById('wave4'), document.getElementById('wave5')];
+            waves.forEach(w => w.classList.add('pulse-wave'));
+            setTimeout(() => waves.forEach(w => w.classList.remove('pulse-wave')), 1500);
+        }
+
+        function smellObject(name, aroma) {
+            playSynthSound(783.99, 'sine', 0.2);
+            document.getElementById('hidungResultText').innerHTML = `Hidung mencium objek <strong>${name}</strong>: Aroma tercium <span class="text-emerald-700 font-bold">${aroma}</span>!`;
+        }
+
+        function testTaste(rasa, contoh, colorStyle) {
+            playSynthSound(880, 'sine', 0.2);
+            document.getElementById('lidahResultText').innerHTML = `Sensasi <strong>${rasa}</strong> (Contoh: ${contoh}). Bintil tunas pengecap di lidah mengirimkan sinyal rasa ini ke otak!`;
+        }
+
+        function touchSkin(benda, tekstur, suhu) {
+            playSynthSound(987.77, 'sine', 0.2);
+            document.getElementById('kulitResultText').innerHTML = `Menyentuh <strong>${benda}</strong>: Kulit merasakan tekstur <span class="font-bold text-purple-700">${tekstur}</span> dan <span class="font-bold text-purple-700">${suhu}</span>.`;
+        }
+
+        function resetSimulasi(type) {
+            playSynthSound(300, 'sine', 0.1);
+            if (type === 'mata') document.getElementById('mataResultText').innerText = "Silakan klik salah satu objek di atas!";
+            if (type === 'telinga') document.getElementById('telingaResultText').innerText = "Klik kartu di atas untuk mendengarkan getaran bunyi!";
+            if (type === 'hidung') document.getElementById('hidungResultText').innerText = "Pilih benda untuk menguji kemampuan pembauan hidung!";
+            if (type === 'lidah') document.getElementById('lidahResultText').innerText = "Klik kartu rasa di atas.";
+            if (type === 'kulit') document.getElementById('kulitResultText').innerText = "Pilih benda untuk menyentuh dan mendeteksi suhunya!";
+        }
+
+        /* ==========================================================================
+           5. KUIS INTERAKTIF (10 SOAL LENGKAP & VALIDASI)
+           ========================================================================== */
+        const quizData = [
+            {
+                q: "1. Organ tubuh yang digunakan manusia untuk melihat warna dan bentuk benda adalah...",
+                options: ["A. Telinga", "B. Mata", "C. Hidung", "D. Lidah"],
+                ans: 1,
+                exp: "Mata adalah alat indra penglihatan yang bertugas menangkap cahaya untuk melihat warna dan bentuk."
+            },
+            {
+                q: "2. Suara kicauan burung di pagi hari dapat kita dengar dengan bantuan...",
+                options: ["A. Mata", "B. Hidung", "C. Telinga", "D. Kulit"],
+                ans: 2,
+                exp: "Telinga adalah alat indra pendengaran yang dapat menangkap getaran suara dari luar."
+            },
+            {
+                q: "3. Indra yang membantu kita mencium aroma harum bunga mawar adalah...",
+                options: ["A. Hidung", "B. Lidah", "C. Kulit", "D. Mata"],
+                ans: 0,
+                exp: "Hidung berfungsi sebagai indra penciuman untuk mendeteksi berbagai bebauan di udara."
+            },
+            {
+                q: "4. Rasa manis pada buah donat dan permen dirasakan oleh organ...",
+                options: ["A. Kulit", "B. Telinga", "C. Lidah", "D. Hidung"],
+                ans: 2,
+                exp: "Lidah memiliki tunas pengecap yang dapat mengenali rasa manis, asin, asam, dan pahit."
+            },
+            {
+                q: "5. Manakah kebiasaan yang baik untuk merawat kesehatan mata?",
+                options: ["A. Membaca di tempat yang redup/gelap", "B. Menonton TV sangat dekat", "C. Membaca di tempat terang", "D. Menggosok mata saat tangan kotor"],
+                ans: 2,
+                exp: "Membaca di ruangan yang terang membantu mata agar tidak cepat lelah."
+            },
+            {
+                q: "6. Saat menyentuh es batu, kulit kita merasakan sensasi...",
+                options: ["A. Panas", "B. Dingin dan licin", "C. Kasar dan hangat", "D. Pahit"],
+                ans: 1,
+                exp: "Kulit adalah indra peraba yang peka terhadap perubahan suhu dingin dan tekstur licin."
+            },
+            {
+                q: "7. Cara aman menjaga kesehatan telinga yang benar adalah...",
+                options: ["A. Menusuk telinga dengan benda keras", "B. Mendengar musik sangat keras", "C. Menghindari suara yang terlalu bising", "D. Memasukkan air ke telinga"],
+                ans: 2,
+                exp: "Menghindari suara yang sangat keras dapat melindungi gendang telinga dari kerusakan."
+            },
+            {
+                q: "8. Jumlah pancaindra yang dimiliki oleh tubuh manusia adalah...",
+                options: ["A. 3", "B. 4", "C. 5", "D. 6"],
+                ans: 2,
+                exp: "Pancaindra manusia berjumlah 5: mata, telinga, hidung, lidah, dan kulit."
+            },
+            {
+                q: "9. Agar kebersihan kulit tetap terjaga, kita sebaiknya membiasakan...",
+                options: ["A. Mandi 2 kali sehari", "B. Jarang mencuci tangan", "C. Bersepeda tanpa mandi", "D. Memakai pakaian kotor"],
+                ans: 0,
+                exp: "Mandi 2 kali sehari menggunakan sabun membantu membersihkan kuman pada kulit."
+            },
+            {
+                q: "10. Saat makan buah apel, indra yang bekerja secara bersamaan adalah...",
+                options: ["A. Mata saja", "B. Lidah saja", "C. Mata, Lidah, Kulit, Hidung, Telinga", "D. Telinga saja"],
+                ans: 2,
+                exp: "Saat makan, seluruh pancaindra bekerja sama melihat, meraba, mencium, mengecap, dan mendengar kerenyahan makanan."
+            }
+        ];
+
+        let selectedOption = null;
+
+        function startQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            userQuizAnswers.fill(null);
+            document.getElementById('quizStartScreen').classList.add('hidden');
+            document.getElementById('quizResultScreen').classList.add('hidden');
+            document.getElementById('quizActiveScreen').classList.remove('hidden');
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            selectedOption = null;
+            const data = quizData[currentQuizIndex];
+            
+            document.getElementById('quizQuestionNum').innerText = `Soal ${currentQuizIndex + 1} dari 10`;
+            document.getElementById('quizScoreCurrent').innerText = `Skor: ${quizScore}`;
+            document.getElementById('quizProgressBar').style.width = `${((currentQuizIndex + 1) / 10) * 100}%`;
+            document.getElementById('quizQuestionText').innerText = data.q;
+
+            const container = document.getElementById('quizOptionsContainer');
+            container.innerHTML = '';
+
+            data.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-opt-btn p-4 rounded-xl border-2 border-slate-200 bg-white text-left font-semibold text-slate-700 hover:bg-sky-50 transition';
+                btn.innerText = opt;
+                btn.onclick = () => selectQuizOption(idx, btn);
+                container.appendChild(btn);
+            });
+
+            // Reset Feedback & Controls
+            document.getElementById('quizFeedbackBox').className = 'hidden p-4 rounded-2xl border text-sm font-semibold';
+            document.getElementById('quizCheckBtn').classList.remove('hidden');
+            document.getElementById('quizNextBtn').classList.add('hidden');
+        }
+
+        function selectQuizOption(index, element) {
+            playSynthSound(500, 'sine', 0.1);
+            selectedOption = index;
+            document.querySelectorAll('.quiz-opt-btn').forEach(b => {
+                b.className = 'quiz-opt-btn p-4 rounded-xl border-2 border-slate-200 bg-white text-left font-semibold text-slate-700 hover:bg-sky-50 transition';
+            });
+            element.className = 'quiz-opt-btn p-4 rounded-xl border-2 border-sky-500 bg-sky-50 text-left font-bold text-sky-800 transition shadow-sm';
+        }
+
+        function checkQuizAnswer() {
+            if (selectedOption === null) {
+                alert("Pilihlah salah satu jawaban terlebih dahulu!");
+                return;
+            }
+
+            const data = quizData[currentQuizIndex];
+            const isCorrect = (selectedOption === data.ans);
+            const fbBox = document.getElementById('quizFeedbackBox');
+            const fbTitle = document.getElementById('quizFeedbackTitle');
+            const fbText = document.getElementById('quizFeedbackText');
+
+            // Prevent multiple scoring on same question
+            userQuizAnswers[currentQuizIndex] = selectedOption;
+
+            if (isCorrect) {
+                playSynthSound(800, 'triangle', 0.3);
+                quizScore += 10;
+                fbBox.className = 'p-4 rounded-2xl border border-emerald-300 bg-emerald-50 text-emerald-900 block';
+                fbTitle.innerText = '✅ Jawaban Kamu Benar!';
+            } else {
+                playSynthSound(250, 'sawtooth', 0.3);
+                fbBox.className = 'p-4 rounded-2xl border border-rose-300 bg-rose-50 text-rose-900 block';
+                fbTitle.innerText = `❌ Jawaban Kurang Tepat! (Jawaban Benar: ${data.options[data.ans]})`;
+            }
+
+            fbText.innerText = data.exp;
+
+            // Lock Option Buttons
+            document.querySelectorAll('.quiz-opt-btn').forEach(b => b.onclick = null);
+
+            document.getElementById('quizCheckBtn').classList.add('hidden');
+            document.getElementById('quizNextBtn').classList.remove('hidden');
+            document.getElementById('quizScoreCurrent').innerText = `Skor: ${quizScore}`;
+        }
+
+        function nextQuizQuestion() {
+            currentQuizIndex++;
+            if (currentQuizIndex < 10) {
+                renderQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            playSynthSound(900, 'sine', 0.5);
+            document.getElementById('quizActiveScreen').classList.add('hidden');
+            document.getElementById('quizResultScreen').classList.remove('hidden');
+            
+            document.getElementById('finalQuizScore').innerText = quizScore;
+            const correctCount = quizScore / 10;
+            document.getElementById('finalQuizAnswers').innerText = `Benar: ${correctCount} / Salah: ${10 - correctCount}`;
+
+            const motiv = document.getElementById('finalQuizMotivation');
+            if (quizScore >= 90) {
+                motiv.innerText = '🏆 "Hebat Sekali! Kamu Sudah Sangat Memahami Pancaindra!"';
+            } else if (quizScore >= 70) {
+                motiv.innerText = '🌟 "Bagus! Ayo Pelajari Kembali Bagian Yang Masih Sulit!"';
+            } else {
+                motiv.innerText = '💪 "Tetap Semangat! Yuk Baca Materi Dan Coba Lagi!"';
+            }
+
+            // Track Progress
+            learningProgress.quizDone = true;
+            updateOverallProgress();
+        }
+
+        function resetQuiz() {
+            startQuiz();
+        }
+
+        /* ==========================================================================
+           6. PROGRES BELAJAR & LOCAL STORAGE
+           ========================================================================== */
+        function updateOverallProgress() {
+            // Compute percentage
+            let materiDone = learningProgress.materiCompleted.filter(Boolean).length;
+            let simDone = Object.values(learningProgress.simulationsTried).filter(Boolean).length;
+            let quizDone = learningProgress.quizDone ? 1 : 0;
+
+            // Total tasks = 5 materi + 5 simulasi + 1 kuis = 11 items
+            let total = 11;
+            let current = materiDone + simDone + quizDone;
+            let percentage = Math.round((current / total) * 100);
+
+            document.getElementById('progressBar').style.width = `${percentage}%`;
+            document.getElementById('progressText').innerText = `${percentage}% Selesai`;
+
+            // Save to localStorage safely
+            try {
+                localStorage.setItem('pancaindra_progress', JSON.stringify(learningProgress));
+            } catch (e) {
+                console.log("LocalStorage non-accessible: ", e);
+            }
+        }
+
+        function loadSavedProgress() {
+            try {
+                const saved = localStorage.getItem('pancaindra_progress');
+                if (saved) {
+                    learningProgress = JSON.parse(saved);
+                    updateOverallProgress();
+                }
+            } catch (e) {
+                console.log("LocalStorage Error: ", e);
+            }
+        }
+
+        function resetProgress() {
+            if (confirm("Apakah adik-adik yakin ingin mengulang seluruh progres belajar dari awal?")) {
+                learningProgress = {
+                    materiCompleted: [false, false, false, false, false],
+                    simulationsTried: { mata: false, telinga: false, hidung: false, lidah: false, kulit: false },
+                    quizDone: false
+                };
+                try {
+                    localStorage.removeItem('pancaindra_progress');
+                } catch(e){}
+                updateOverallProgress();
+                alert("Progres belajar berhasil di-reset!");
+            }
+        }
+
+        /* Initialize on Window Load */
+        window.onload = function() {
+            loadSavedProgress();
+        };
+    </script>
+</body>
+</html>
